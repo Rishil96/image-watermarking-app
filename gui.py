@@ -16,13 +16,13 @@ class GUI:
     def __init__(self):
 
         # Store image and watermark paths
-        self.file_path = None
+        self.image_path = None
         self.watermark_path = None
 
         # Window and basic config
         self.window = tkinter.Tk()
         self.window.title("Watermark Your Photos!")
-        self.window.geometry("800x600")
+        self.window.geometry("800x650")
         self.window.config(background="#f8f9fa")  # Light gray for neutral background
 
         # Create Title label
@@ -110,7 +110,7 @@ class GUI:
         # Submit Section
         self.submit_btn = tkinter.Button(
             text="Add Watermark",
-            command=self.process_image,
+            command=self.place_watermark,
             font=("Arial", 14, "bold"),
             bg="#28a745",  # Green for action
             fg=BUTTON_TEXT_COLOR,
@@ -119,6 +119,14 @@ class GUI:
         )
         self.submit_btn.grid(row=10, column=0, columnspan=2, pady=20)
 
+        self.output_label = tkinter.Label(
+            text="",
+            font=PATH_FONT,
+            bg="#f8f9fa",
+            fg="gray"
+        )
+        self.output_label.grid(row=11, column=0, pady=5, padx=20)
+
         # Footer
         self.footer = tkinter.Label(
             text="© 2025 PyImage | All Rights Reserved",
@@ -126,7 +134,7 @@ class GUI:
             bg="#f8f9fa",
             fg="gray"
         )
-        self.footer.grid(row=11, column=0, columnspan=2, pady=10)
+        self.footer.grid(row=12, column=0, columnspan=2, pady=10)
 
         # Add consistent padding
         for widget in self.window.winfo_children():
@@ -135,14 +143,14 @@ class GUI:
         self.window.mainloop()
 
     def upload_image(self):
-        self.file_path = Path(
+        self.image_path = Path(
             filedialog.askopenfilename(
                 title="Select an Image to apply a watermark on",
                 filetypes=[("JPEG Files", "*.jpg"), ("PNG Files", "*.png")]
             )
         )
-        if self.file_path:
-            self.file_label.config(text=f"Image: {self.file_path.name}")
+        if self.image_path:
+            self.file_label.config(text=f"Image: {self.image_path.name}")
 
     def upload_watermark(self):
         self.watermark_path = Path(
@@ -154,10 +162,29 @@ class GUI:
         if self.watermark_path:
             self.watermark_label_status.config(text=f"Watermark: {self.watermark_path.name}")
 
-    def process_image(self):
-        print("Image Path:", self.file_path)
+    def place_watermark(self):
+        print("Image Path:", self.image_path)
         print("Watermark Path", self.watermark_path)
-        pass
+
+        if self.image_path is None:
+            self.output_label.config(text="Please add an image first!")
+            return
+
+        if self.watermark_path is None:
+            self.output_label.config(text="Please add a watermark first!")
+            return
+
+        # Create class and pillow objects for Image Processing
+        watermark_obj = WaterMark()
+        image = watermark_obj.load_image(self.image_path)
+        watermark = watermark_obj.load_watermark(self.watermark_path)
+
+        image.show()
+        watermark.show()
+
+        self.output_label.config(text=f"Watermark was added successfully!\n"
+                                      f"Please find the new image in the outputs folder by the name\n"
+                                      f"output-{self.image_path.name}")
 
 
 if __name__ == "__main__":
