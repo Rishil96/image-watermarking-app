@@ -37,11 +37,11 @@ class GUI:
             anchor="center",
             width=40
         )
-        self.label.grid(row=0, column=0, columnspan=2, pady=20)
+        self.label.grid(row=0, column=0, pady=20)
 
         # Divider 1
         self.divider = tkinter.Label(bg="#ced4da", height=1, width=60)
-        self.divider.grid(row=1, column=0, columnspan=2, pady=10)
+        self.divider.grid(row=1, column=0, pady=10)
 
         # Section 1: Upload Image
         self.image_label = tkinter.Label(
@@ -61,20 +61,19 @@ class GUI:
             relief="raised",
             bd=3
         )
-        self.file_btn.grid(row=3, column=0, pady=5, padx=20, sticky="e")
+        self.file_btn.grid(row=3, column=0, pady=5, padx=20)
 
         self.file_label = tkinter.Label(
             text="No image uploaded yet...",
             font=PATH_FONT,
             bg="#f8f9fa",
-            fg="gray",
-            anchor="w"
+            fg="gray"
         )
-        self.file_label.grid(row=3, column=1, pady=5, padx=20, sticky="w")
+        self.file_label.grid(row=4, column=0, pady=5, padx=20)
 
         # Divider 2
         self.divider = tkinter.Label(bg="#ced4da", height=1, width=60)
-        self.divider.grid(row=4, column=0, columnspan=2, pady=10)
+        self.divider.grid(row=5, column=0, columnspan=2, pady=10)
 
         # Section 2: Upload Watermark
         self.watermark_label = tkinter.Label(
@@ -83,7 +82,7 @@ class GUI:
             bg="#f8f9fa",
             fg="#212529"
         )
-        self.watermark_label.grid(row=5, column=0, columnspan=2, pady=5)
+        self.watermark_label.grid(row=6, column=0, columnspan=2, pady=5)
 
         self.watermark_btn = tkinter.Button(
             text="Upload Watermark",
@@ -94,32 +93,31 @@ class GUI:
             relief="raised",
             bd=3
         )
-        self.watermark_btn.grid(row=6, column=0, pady=5, padx=20, sticky="e")
+        self.watermark_btn.grid(row=7, column=0, pady=5, padx=20)
 
         self.watermark_label_status = tkinter.Label(
             text="No watermark uploaded yet...",
             font=PATH_FONT,
             bg="#f8f9fa",
             fg="gray",
-            anchor="w"
         )
-        self.watermark_label_status.grid(row=6, column=1, pady=5, padx=20, sticky="w")
+        self.watermark_label_status.grid(row=8, column=0, pady=5, padx=20)
 
         # Divider 3
         self.divider = tkinter.Label(bg="#ced4da", height=1, width=60)
-        self.divider.grid(row=7, column=0, columnspan=2, pady=10)
+        self.divider.grid(row=9, column=0, columnspan=2, pady=10)
 
         # Submit Section
         self.submit_btn = tkinter.Button(
             text="Add Watermark",
             command=self.process_image,
-            font=BUTTON_FONT,
+            font=("Arial", 14, "bold"),
             bg="#28a745",  # Green for action
             fg=BUTTON_TEXT_COLOR,
             relief="raised",
             bd=3
         )
-        self.submit_btn.grid(row=8, column=0, columnspan=2, pady=20)
+        self.submit_btn.grid(row=10, column=0, columnspan=2, pady=20)
 
         # Footer
         self.footer = tkinter.Label(
@@ -128,7 +126,7 @@ class GUI:
             bg="#f8f9fa",
             fg="gray"
         )
-        self.footer.grid(row=9, column=0, columnspan=2, pady=10)
+        self.footer.grid(row=11, column=0, columnspan=2, pady=10)
 
         # Add consistent padding
         for widget in self.window.winfo_children():
@@ -154,9 +152,13 @@ class GUI:
             )
         )
         if self.watermark_path:
-            self.watermark_label.config(text=f"Watermark: {self.watermark_path.name}")
+            self.watermark_label_status.config(text=f"Watermark: {self.watermark_path.name}")
 
     def process_image(self):
         print("Image Path:", self.file_path)
         print("Watermark Path", self.watermark_path)
         pass
+
+
+if __name__ == "__main__":
+    app = GUI()
