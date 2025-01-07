@@ -20,5 +20,14 @@ class WaterMark:
         current_image = self.load_image(image_path)
         current_watermark = self.load_watermark(watermark_path)
 
+        watermark_width = int(current_image.size[0] * 0.2)
+        watermark_height = int(current_image.size[1] * 0.2)
+        current_watermark = current_watermark.resize((watermark_width, watermark_height))
+
+        position = (current_image.width - current_watermark.width - 10,
+                    current_image.height - current_watermark.height - 10)
+
+        current_image.paste(current_watermark, position, current_watermark)
         current_image.show()
-        current_watermark.show()
+
+        current_image.save(fp=f"./outputs/output-{image_path.name}")

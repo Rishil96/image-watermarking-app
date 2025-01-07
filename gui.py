@@ -163,24 +163,20 @@ class GUI:
             self.watermark_label_status.config(text=f"Watermark: {self.watermark_path.name}")
 
     def place_watermark(self):
-        print("Image Path:", self.image_path)
-        print("Watermark Path", self.watermark_path)
 
+        # Return with error message if image is not added
         if self.image_path is None:
             self.output_label.config(text="Please add an image first!")
             return
 
+        # Return with error message if watermark is not added
         if self.watermark_path is None:
             self.output_label.config(text="Please add a watermark first!")
             return
 
-        # Create class and pillow objects for Image Processing
+        # Create class and place watermark on image
         watermark_obj = WaterMark()
-        image = watermark_obj.load_image(self.image_path)
-        watermark = watermark_obj.load_watermark(self.watermark_path)
-
-        image.show()
-        watermark.show()
+        watermark_obj.add_watermark_on_image(self.image_path, self.watermark_path)
 
         self.output_label.config(text=f"Watermark was added successfully!\n"
                                       f"Please find the new image in the outputs folder by the name\n"
