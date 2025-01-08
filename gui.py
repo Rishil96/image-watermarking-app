@@ -141,6 +141,7 @@ class GUI:
             widget.grid_configure(padx=10)
 
     def upload_image(self):
+        # Save image path using Path object
         self.image_path = Path(
             filedialog.askopenfilename(
                 title="Select an Image to apply a watermark on",
@@ -151,6 +152,7 @@ class GUI:
             self.file_label.config(text=f"Image: {self.image_path.name}")
 
     def upload_watermark(self):
+        # Save watermark path using Path object
         self.watermark_path = Path(
             filedialog.askopenfilename(
                 title="Choose a watermark to apply on your image",
@@ -183,4 +185,3 @@ class GUI:
         self.output_label.config(text=f"Watermark was added successfully!\n"
                                       f"Please find the new image in the outputs folder by the name\n"
                                       f"output-{self.image_path.name}")
-
