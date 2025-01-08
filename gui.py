@@ -1,5 +1,5 @@
 import tkinter
-from tkinter import filedialog
+from tkinter import filedialog, messagebox
 from pathlib import Path
 from watermark import WaterMark
 
@@ -140,8 +140,6 @@ class GUI:
         for widget in self.window.winfo_children():
             widget.grid_configure(padx=10)
 
-        self.window.mainloop()
-
     def upload_image(self):
         self.image_path = Path(
             filedialog.askopenfilename(
@@ -166,11 +164,15 @@ class GUI:
 
         # Return with error message if image is not added
         if self.image_path is None:
+            messagebox.showerror(title="Image not uploaded",
+                                 message="Please upload an image before trying to add a watermark.")
             self.output_label.config(text="Please add an image first!")
             return
 
         # Return with error message if watermark is not added
         if self.watermark_path is None:
+            messagebox.showerror(title="Watermark not uploaded",
+                                 message="Please upload a watermark to apply on the image.")
             self.output_label.config(text="Please add a watermark first!")
             return
 
@@ -182,6 +184,3 @@ class GUI:
                                       f"Please find the new image in the outputs folder by the name\n"
                                       f"output-{self.image_path.name}")
 
-
-if __name__ == "__main__":
-    app = GUI()
